@@ -1,7 +1,4 @@
-# AI Gmail Dashboard (Work in Progress)
 
-## Current Status
-- ✅ **Tech Stack:** Next.js, TypeScript, Tailwind, Prisma, PostgreSQL, Clerk.
-- ✅ **Database:** Schema defined for Users, Accounts, and Emails.
-- ✅ **Authentication:** Clerk auth is fully functional.
-- 🚧 **Gmail Integration:** OAuth handshake implemented; pending final API connection fix.
+## DO NOT COMMIT
+This directory is auto-generated from `@clerk/nextjs` because you are running in Keyless mode. Avoid committing the `.clerk/` directory as it includes the secret key of the unclaimed instance.
+  

@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String  @id @default(uuid())
+  emailAddress String  @unique
+  firstName    String
+  lastName     String
+  imageUrl     String?
+  emails       Email[]
+
+  // Add this new line:
+  accounts Account[]
+}
+
+model Email {
+  id        String  @id @default(uuid())
+  aurinkoId String  @unique // Unique ID from Gmail
+  threadId  String?
+
+  // Basic Email Fields
+  subject String?
+  snippet String?  @db.Text
+  body    String?  @db.Text
+  from    String
+  to      Json // Stores recipients
+  sentAt  DateTime
+
+  // AI-Powered Features
+  summary      String? @db.Text // AI Summary
+  category     String? // "Primary", "Social", "Promotions"
+  replySuggest String? @db.Text // AI drafted reply
+
+  // Link to User
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Account {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  accessToken  String @unique
+  emailAddress String
+  name         String
+  provider     String // "Aurinko"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, emailAddress])
+}
